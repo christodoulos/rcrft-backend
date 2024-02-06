@@ -21,7 +21,6 @@ for _, row in df.iterrows():
     type = row["type"]
     metrics_and_units = row["metrics_and_units"]
     spatial_scale = row["spatial_scale"]
-    data_requirements = row["data_requirements"]
     references = row["references"]
     typology = row["typology"]
     category = CodeAndDescription(
@@ -57,12 +56,15 @@ for _, row in df.iterrows():
         if not isinstance(metrics_and_units, float)
         else EMPTY,
         spatial_scale=spatial_scale if not isinstance(spatial_scale, float) else EMPTY,
-        data_requirements=data_requirements
-        if not isinstance(data_requirements, float)
-        else EMPTY,
         references=references if not isinstance(references, float) else EMPTY,
         typology=typology if not isinstance(typology, float) else EMPTY,
         category=category if not isinstance(category, float) else EMPTY,
         subcategory=subcategory if not isinstance(subcategory, float) else EMPTY,
-        kind="vulnerability",
-    ).save()
+        kind="adaptation",
+    )
+    try:
+        Indicator.objects(code=indicator_code).update_one(
+            **indicator.to_mongo(), upsert=True
+        )
+    except Exception as e:
+        print("failed")

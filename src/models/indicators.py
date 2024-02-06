@@ -7,11 +7,11 @@ class CodeAndDescription(me.EmbeddedDocument):
 
 
 class Indicator(me.Document):
-    meta = {"collection": "indicators", "db_alias": "rcrft", "indexes": ["code"]}
+    meta = {"collection": "indicators", "db_alias": "rcrft"}
 
     category = me.EmbeddedDocumentField(CodeAndDescription)
     subcategory = me.EmbeddedDocumentField(CodeAndDescription)
-    code = me.StringField(unique=True)
+    code = me.StringField()
     description = me.StringField()
     principal = me.StringField()
     main_climate_change_factor = me.StringField()
@@ -24,4 +24,4 @@ class Indicator(me.Document):
     data_requirements = me.StringField(default="")
     references = me.StringField()
     typology = me.StringField()
-    kind = me.StringField(choices=["vulnerability", "adaptation"])
+    kind = me.StringField(choices=["vulnerability", "adaptation"], unique_with="code")
