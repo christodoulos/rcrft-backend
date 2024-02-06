@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.3",
+
+  "info": {
+    "title": "RCRFT Tool",
+    "version": "0.0.1",
+    "description": "API Documentation.",
+    "contact": {
+      "name": "RCRFT Tool Admins",
+      "url": "https://rcrfttool.com/",
+      "email": "admin@rcrfttool.com"
+    },
+    "license": {
+      "name": "AGPL-3.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  }
+}
