@@ -15,7 +15,9 @@ connect(alias=MONGO_DBNAME, db=MONGO_DBNAME, host=MONGO_HOST, port=MONGO_PORT)
 
 cors = CORS(
     app,
-    resources={r"*": {"origins": ["http://localhost:4200"]}},
+    resources={
+        r"*": {"origins": ["http://localhost:4200", "https://rcrft-frontend.ddns.net"]}
+    },
 )
 
 SWAGGER_URL = "/docs"
