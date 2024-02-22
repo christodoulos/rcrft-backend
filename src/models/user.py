@@ -1,9 +1,10 @@
 from src.config import MONGO_DBNAME
+from src.enums import DemoSite
 import mongoengine as me
 
 
 class User(me.Document):
-    email = me.EmailField(required=True, unique=True, pk=True)
+    email = me.EmailField(required=True, unique=True)
     firstName = me.StringField(required=True)
     lastName = me.StringField(required=True)
     name = me.StringField(required=True)
@@ -12,6 +13,7 @@ class User(me.Document):
     provider = me.StringField(required=True, choices=["GOOGLE"], default="GOOGLE")
     isAdmin = me.BooleanField(required=True, default=False)
     isEnabled = me.BooleanField(required=True, default=False)
+    demoSite = me.EnumField(DemoSite, required=True, default=DemoSite.NONE)
 
     meta = {"collection": "users", "db_alias": MONGO_DBNAME}
     
@@ -22,5 +24,9 @@ class User(me.Document):
         return mongo_dict
     
 
-    def get_user_by_google_id(googleId):
+    def get_user_by_google_id(googleId: str) -> "User":
         return User.objects(googleId=googleId).first()
+    
+    
+    def get_user_by_email(email: str) -> "User":
+        return User.objects(email=email).first()
