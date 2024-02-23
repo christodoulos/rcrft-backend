@@ -11,8 +11,6 @@ class User(me.Document):
     googleId = me.StringField(required=True)
     photoUrl = me.StringField(required=True)
     provider = me.StringField(required=True, choices=["GOOGLE"], default="GOOGLE")
-    isAdmin = me.BooleanField(required=True, default=False)
-    isEnabled = me.BooleanField(required=True, default=False)
     demoSite = me.EnumField(DemoSite, required=True, default=DemoSite.NONE)
 
     meta = {"collection": "users", "db_alias": MONGO_DBNAME}

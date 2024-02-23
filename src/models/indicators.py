@@ -9,6 +9,7 @@ class CodeAndDescription(me.EmbeddedDocument):
 class Indicator(me.Document):
     meta = {"collection": "indicators", "db_alias": "rcrft"}
 
+    definedBy = me.StringField(required=True, default="IMPETUS")
     category = me.EmbeddedDocumentField(CodeAndDescription)
     subcategory = me.EmbeddedDocumentField(CodeAndDescription)
     code = me.StringField()

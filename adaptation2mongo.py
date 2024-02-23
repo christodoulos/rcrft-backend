@@ -45,6 +45,7 @@ for _, row in df.iterrows():
         category=category,
         subcategory=subcategory,
         kind="adaptation",
+        definedBy="IMPETUS",
     )
     try:
         Indicator.objects(code=indicator_code).update_one(
