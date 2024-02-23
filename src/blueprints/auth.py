@@ -40,3 +40,12 @@ def update_profile():
 	data = request.json
 	user.update(demoSite=data["demoSite"])
 	return Response(json.dumps({'msg': 'Success'}), status=200)
+
+
+# Endpoint to retrieve all users
+@auth.route("/users", methods=["GET"])
+@jwt_required()
+def get_users():
+	users = User.objects()
+	users = [user.to_mongo_dict() for user in users]
+	return Response(json.dumps(users), status=200)
