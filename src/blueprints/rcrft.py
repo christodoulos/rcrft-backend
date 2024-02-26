@@ -112,8 +112,8 @@ def get_all_assessments():
 				"is_inverse": assessment.is_inverse,
 				"alternative_description": assessment.alternative_description,
 				"normalized_value": assessment.normalized_value,
-    			"demoSite": User.get_user_by_email(assessment.user).demoSite
+    			"demoSite": User.get_user_by_email(assessment.user).demoSite.value
 			}
 			final_assessments.append(new_assessment)
-  
+	print(final_assessments)
 	return Response(json.dumps(final_assessments), status=200)
