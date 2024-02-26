@@ -25,4 +25,4 @@ class Indicator(me.Document):
     data_requirements = me.StringField(default="")
     references = me.StringField()
     typology = me.StringField()
-    kind = me.StringField(choices=["vulnerability", "adaptation"], unique_with="code")
+    kind = me.StringField(choices=["vulnerability", "adaptation", "resilience"])
