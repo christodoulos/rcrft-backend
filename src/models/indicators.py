@@ -1,9 +1,21 @@
+from src.const import *
 import mongoengine as me
-
+from typing import List
 
 class CodeAndDescription(me.EmbeddedDocument):
     code = me.StringField()
     description = me.StringField()
+
+
+class Assessment(me.EmbeddedDocument):
+    user = me.StringField(required=True)
+    value = me.FloatField(default=NEG_INT)
+    reference_value = me.FloatField(default=NEG_INT)
+    min_value = me.FloatField(default=NEG_INT)
+    max_value = me.FloatField(default=NEG_INT)
+    is_inverse = me.BooleanField(default=False)
+    alternative_description = me.StringField(default=EMPTY_STR)
+    normalized_value = me.FloatField(required=True)
 
 
 class Indicator(me.Document):
@@ -13,7 +25,7 @@ class Indicator(me.Document):
     category = me.EmbeddedDocumentField(CodeAndDescription)
     subcategory = me.EmbeddedDocumentField(CodeAndDescription)
     code = me.StringField()
-    description = me.StringField()
+    description = me.StringField(unique=True)
     principal = me.StringField()
     main_climate_change_factor = me.StringField()
     other_climate_change_factors = me.StringField()
@@ -26,3 +38,14 @@ class Indicator(me.Document):
     references = me.StringField()
     typology = me.StringField()
     kind = me.StringField(choices=["vulnerability", "adaptation", "resilience"])
+    assessments = me.EmbeddedDocumentListField(Assessment)
+    
+    
+    @staticmethod
+    def get_by_description(description: str) -> "Indicator":
+        return Indicator.objects(description=description).first()
+
+
+    @staticmethod
+    def get_all_assessments() -> List[Assessment]:
+        return Indicator.objects().values_list("assessments")

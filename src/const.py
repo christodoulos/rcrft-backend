@@ -1,0 +1,2 @@
+NEG_INT = -1
+EMPTY_STR = ""
