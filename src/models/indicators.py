@@ -1,4 +1,5 @@
 from src.const import *
+from src.enums import AssessmentType
 import mongoengine as me
 from typing import List
 
@@ -9,6 +10,7 @@ class CodeAndDescription(me.EmbeddedDocument):
 
 class Assessment(me.EmbeddedDocument):
     user = me.StringField(required=True)
+    assessment_type = me.EnumField(AssessmentType, required=True)
     value = me.FloatField(default=NEG_INT)
     reference_value = me.FloatField(default=NEG_INT)
     min_value = me.FloatField(default=NEG_INT)

@@ -2,6 +2,7 @@ from flask import Blueprint, Response, request
 from src.models.indicators import *
 from src.models.user import *
 from src.interfaces import *
+from src.enums import AssessmentType
 from typing import List
 from flask_jwt_extended import get_jwt_identity, jwt_required
 import json
@@ -60,27 +61,30 @@ def new_assessment():
 	if form_type == "qualitative":
 		new_assessment = Assessment(
 			user=current_user,
+			assessment_type=AssessmentType.QUALITATIVE,
 			normalized_value=data["normalizedValue"],
 		)
 
 	elif form_type == "quantitative-reference":
 		new_assessment = Assessment(
 			user=current_user,
+			assessment_type=AssessmentType.QUANTITATIVE_REFERENCE,
 			value=data["value"],
 			reference_value=data["referenceValue"],
 			is_inverse=data["isInverse"],
-			alternative_description=data["alternativeDescription"],
+			alternative_description=data["alternativeTitle"],
 			normalized_value=data["normalizedValue"],
 		)
 
 	elif form_type == "quantitative-min-max":
 		new_assessment = Assessment(
 			user=current_user,
+   			assessment_type=AssessmentType.QUANTITATIVE_MIN_MAX,
 			value=data["value"],
 			min_value=data["minValue"],
 			max_value=data["maxValue"],
    			is_inverse=data["isInverse"],
-			alternative_description=data["alternativeDescription"],
+			alternative_description=data["alternativeTitle"],
 			normalized_value=data["normalizedValue"],
 		)
   
@@ -115,5 +119,5 @@ def get_all_assessments():
     			"demoSite": User.get_user_by_email(assessment.user).demoSite.value
 			}
 			final_assessments.append(new_assessment)
-	print(final_assessments)
+
 	return Response(json.dumps(final_assessments), status=200)

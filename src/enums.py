@@ -10,3 +10,9 @@ class DemoSite(Enum):
     ZEMGALE = "Zemgale region, LV"
     LAGHI = "Valle dei Laghi area, IT"
     NONE = "Not specified"
+
+
+class AssessmentType(Enum):
+	QUALITATIVE = "qualitative"
+	QUANTITATIVE_REFERENCE = "quantitative-reference"
+	QUANTITATIVE_MIN_MAX = "quantitative-min-max"
