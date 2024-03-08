@@ -1,5 +1,5 @@
 from src.config import MONGO_DBNAME
-from src.enums import DemoSite
+from src.enums import DemoSite, StakeHolderType
 import mongoengine as me
 
 
@@ -12,6 +12,8 @@ class User(me.Document):
     photoUrl = me.StringField(required=True)
     provider = me.StringField(required=True, choices=["GOOGLE"], default="GOOGLE")
     demoSite = me.EnumField(DemoSite, required=True, default=DemoSite.NONE)
+    stakeHolderType = me.EnumField(StakeHolderType, required=True, default=StakeHolderType.NONE)
+    
 
     meta = {"collection": "users", "db_alias": MONGO_DBNAME}
     

@@ -18,6 +18,7 @@ class Assessment(me.EmbeddedDocument):
     is_inverse = me.BooleanField(default=False)
     alternative_description = me.StringField(default=EMPTY_STR)
     normalized_value = me.FloatField(required=True)
+    degree_of_certainty = me.FloatField(required=True)
 
 
 class Indicator(me.Document):
@@ -51,3 +52,16 @@ class Indicator(me.Document):
     @staticmethod
     def get_all_assessments() -> List[Assessment]:
         return Indicator.objects().values_list("assessments")
+    
+
+    @staticmethod
+    def get_all_indicators() -> List["Indicator"]:
+        return Indicator.objects()
+
+
+    @staticmethod
+    def clear_all_assessments() -> None:
+        all_indicators = Indicator.get_all_indicators()
+        for indicator in all_indicators:
+            # indicator.assessments = [Assessment(assessment_type=AssessmentType.QUALITATIVE, user=EMPTY_STR, normalized_value=NEG_INT, degree_of_certainty=NEG_INT)]
+            indicator.update(assessments=[])

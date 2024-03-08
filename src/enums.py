@@ -13,6 +13,15 @@ class DemoSite(Enum):
 
 
 class AssessmentType(Enum):
-	QUALITATIVE = "qualitative"
-	QUANTITATIVE_REFERENCE = "quantitative-reference"
-	QUANTITATIVE_MIN_MAX = "quantitative-min-max"
+    QUALITATIVE = "qualitative"
+    QUANTITATIVE_REFERENCE = "quantitative-reference"
+    QUANTITATIVE_MIN_MAX = "quantitative-min-max"
+
+
+class StakeHolderType(Enum):
+    Public = "Public"
+    Private = "Private"
+    Academic = "Academic"
+    Government = "Government"
+    Ngo = "NGO"
+    NONE = "Not Specified"

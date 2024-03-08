@@ -48,11 +48,11 @@ def google_auth():
 def update_profile():
     user = User.get_user_by_email(get_jwt_identity())
     data = request.json
-    user.update(demoSite=data["demoSite"])
+    user.update(demoSite=data["demoSite"], stakeHolderType=data["stakeHolderType"])
     user.reload()
     user = user.to_mongo_dict()
     
-    return Response(json.dumps({"user": user, "msg": f"Your demo site is updated to: {user['demoSite']}"}), status=200)
+    return Response(json.dumps({"user": user, "msg": f"Profile updated."}), status=200)
 
 
 # Endpoint to retrieve all users

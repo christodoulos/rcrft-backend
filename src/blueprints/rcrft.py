@@ -63,6 +63,7 @@ def new_assessment():
 			user=current_user,
 			assessment_type=AssessmentType.QUALITATIVE,
 			normalized_value=data["normalizedValue"],
+			degree_of_certainty=data["degreeOfCertainty"],
 		)
 
 	elif form_type == "quantitative-reference":
@@ -74,6 +75,7 @@ def new_assessment():
 			is_inverse=data["isInverse"],
 			alternative_description=data["alternativeTitle"],
 			normalized_value=data["normalizedValue"],
+   			degree_of_certainty=data["degreeOfCertainty"],
 		)
 
 	elif form_type == "quantitative-min-max":
@@ -86,6 +88,7 @@ def new_assessment():
    			is_inverse=data["isInverse"],
 			alternative_description=data["alternativeTitle"],
 			normalized_value=data["normalizedValue"],
+   			degree_of_certainty=data["degreeOfCertainty"],
 		)
   
 	else: return Response(json.dumps({"msg": "Form type not found"}), status=404)
@@ -93,7 +96,6 @@ def new_assessment():
 	indicator.assessments.append(new_assessment)
 	indicator.save()
 	return Response(json.dumps({"msg": "Assessment added"}), status=200)
-
 
 
 @rcrft.route("/get-all-assessments", methods=["GET"])
@@ -116,7 +118,9 @@ def get_all_assessments():
 				"is_inverse": assessment.is_inverse,
 				"alternative_description": assessment.alternative_description,
 				"normalized_value": assessment.normalized_value,
-    			"demoSite": User.get_user_by_email(assessment.user).demoSite.value
+    			"demoSite": User.get_user_by_email(assessment.user).demoSite.value,
+				"stakeHolderType": User.get_user_by_email(assessment.user).stakeHolderType.value,
+				"degreeOfCertainty": assessment.degree_of_certainty,
 			}
 			final_assessments.append(new_assessment)
 
