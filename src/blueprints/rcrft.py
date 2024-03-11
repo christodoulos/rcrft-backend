@@ -64,6 +64,7 @@ def new_assessment():
 			assessment_type=AssessmentType.QUALITATIVE,
 			normalized_value=data["normalizedValue"],
 			degree_of_certainty=data["degreeOfCertainty"],
+			indicator_weight=data["indicatorWeight"],
 		)
 
 	elif form_type == "quantitative-reference":
@@ -76,6 +77,7 @@ def new_assessment():
 			alternative_description=data["alternativeTitle"],
 			normalized_value=data["normalizedValue"],
    			degree_of_certainty=data["degreeOfCertainty"],
+			indicator_weight=data["indicatorWeight"],
 		)
 
 	elif form_type == "quantitative-min-max":
@@ -89,6 +91,7 @@ def new_assessment():
 			alternative_description=data["alternativeTitle"],
 			normalized_value=data["normalizedValue"],
    			degree_of_certainty=data["degreeOfCertainty"],
+			indicator_weight=data["indicatorWeight"],
 		)
   
 	else: return Response(json.dumps({"msg": "Form type not found"}), status=404)
@@ -121,6 +124,7 @@ def get_all_assessments():
     			"demoSite": User.get_user_by_email(assessment.user).demoSite.value,
 				"stakeHolderType": User.get_user_by_email(assessment.user).stakeHolderType.value,
 				"degreeOfCertainty": assessment.degree_of_certainty,
+    			"indicatorWeight": assessment.indicator_weight
 			}
 			final_assessments.append(new_assessment)
 

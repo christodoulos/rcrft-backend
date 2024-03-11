@@ -19,6 +19,7 @@ class Assessment(me.EmbeddedDocument):
     alternative_description = me.StringField(default=EMPTY_STR)
     normalized_value = me.FloatField(required=True)
     degree_of_certainty = me.FloatField(required=True)
+    indicator_weight = me.FloatField(required=True)
 
 
 class Indicator(me.Document):
