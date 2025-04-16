@@ -1,12 +1,13 @@
-from flask import Blueprint, request, Response
-from google.oauth2 import id_token
+import json
+
+from flask import Blueprint, Response, request
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from google.auth.transport import requests
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from google.oauth2 import id_token
+
 from src.config import GOOGLE_AUDIENCE
 from src.enums import DemoSite
 from src.models.user import User
-import json
-
 
 auth = Blueprint("auth", __name__)
 
@@ -14,10 +15,14 @@ auth = Blueprint("auth", __name__)
 @auth.route("/google-auth", methods=["POST"])
 def google_auth():
     idToken = request.json["idToken"]
-    try: id_info = id_token.verify_oauth2_token(idToken, requests.Request(), GOOGLE_AUDIENCE)
-    except ValueError: return Response({'error': 'Invalid user'}, status=401)
+    try:
+        id_info = id_token.verify_oauth2_token(
+            idToken, requests.Request(), GOOGLE_AUDIENCE
+        )
+    except ValueError:
+        return Response({"error": "Invalid user"}, status=401)
     user = User.objects(googleId=id_info["sub"])
-    
+
     if user:
         user.update(
             email=id_info["email"],
@@ -36,7 +41,7 @@ def google_auth():
             photoUrl=id_info["picture"],
             googleId=id_info["sub"],
         ).save()
-    
+
     user = User.get_user_by_email(id_info["email"]).to_mongo_dict()
     access_token = create_access_token(identity=id_info["email"])
 
@@ -51,7 +56,7 @@ def update_profile():
     user.update(demoSite=data["demoSite"], stakeHolderType=data["stakeHolderType"])
     user.reload()
     user = user.to_mongo_dict()
-    
+
     return Response(json.dumps({"user": user, "msg": f"Profile updated."}), status=200)
 
 

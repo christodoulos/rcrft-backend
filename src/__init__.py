@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from mongoengine import connect
+
 from src.blueprints.auth import auth
 from src.blueprints.rcrft import rcrft
 from src.config import *
@@ -11,13 +12,11 @@ app = Flask(__name__)
 jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = JWT_SECRET_KEY
 
-connect(alias=MONGO_DBNAME, db=MONGO_DBNAME, host=MONGO_HOST, port=MONGO_PORT, username=USERNAME, password=PASSWORD, authentication_source="admin")
+connect(alias=MONGO_DBNAME, db=MONGO_DBNAME, host=MONGO_HOST, port=MONGO_PORT)
 
 cors = CORS(
     app,
-    resources={
-        r"*": {"origins": ["http://localhost:4200", "https://rcrft-frontend.ddns.net"]}
-    },
+    resources={r"*": {"origins": ["http://localhost:4200", "https://rcrft.uwmh.eu"]}},
 )
 
 SWAGGER_URL = "/docs"

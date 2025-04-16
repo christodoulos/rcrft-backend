@@ -1,7 +1,10 @@
+from typing import List
+
+import mongoengine as me
+
 from src.const import *
 from src.enums import AssessmentType
-import mongoengine as me
-from typing import List
+
 
 class CodeAndDescription(me.EmbeddedDocument):
     code = me.StringField()
@@ -43,22 +46,18 @@ class Indicator(me.Document):
     typology = me.StringField()
     kind = me.StringField(choices=["vulnerability", "adaptation", "resilience"])
     assessments = me.EmbeddedDocumentListField(Assessment)
-    
-    
+
     @staticmethod
     def get_by_description(description: str) -> "Indicator":
         return Indicator.objects(description=description).first()
 
-
     @staticmethod
     def get_all_assessments() -> List[Assessment]:
         return Indicator.objects().values_list("assessments")
-    
 
     @staticmethod
     def get_all_indicators() -> List["Indicator"]:
         return Indicator.objects()
-
 
     @staticmethod
     def clear_all_assessments() -> None:

@@ -1,6 +1,7 @@
+import mongoengine as me
+
 from src.config import MONGO_DBNAME
 from src.enums import DemoSite, StakeHolderType
-import mongoengine as me
 
 
 class User(me.Document):
@@ -12,23 +13,21 @@ class User(me.Document):
     photoUrl = me.StringField(required=True)
     provider = me.StringField(required=True, choices=["GOOGLE"], default="GOOGLE")
     demoSite = me.EnumField(DemoSite, required=True, default=DemoSite.NONE)
-    stakeHolderType = me.EnumField(StakeHolderType, required=True, default=StakeHolderType.NONE)
-    
+    stakeHolderType = me.EnumField(
+        StakeHolderType, required=True, default=StakeHolderType.NONE
+    )
 
     meta = {"collection": "users", "db_alias": MONGO_DBNAME}
-    
 
     def to_mongo_dict(self):
         mongo_dict = self.to_mongo().to_dict()
         mongo_dict.pop("_id")
         return mongo_dict
-    
 
     @staticmethod
     def get_user_by_google_id(googleId: str) -> "User":
         return User.objects(googleId=googleId).first()
-    
-    
+
     @staticmethod
     def get_user_by_email(email: str) -> "User":
         return User.objects(email=email).first()
